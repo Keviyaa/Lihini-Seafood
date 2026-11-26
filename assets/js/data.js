@@ -67,7 +67,7 @@ window.FISH = [
   /* Dried & cured */
   { name: "Maldive Fish",    cat: "dried", shape: "dried", forms: ["Chips", "Powder"] },
   { name: "Dried Sprats",    cat: "dried", shape: "dried", forms: ["Pack"] },
-  { name: "Dried Prawns",    cat: "dried", shape: "dried", forms: ["Pack"] },
+  { name: "Dried Prawns",    cat: "dried", shape: "prawn", forms: ["Pack"] },
   { name: "Salted Fish",     cat: "dried", shape: "dried", forms: ["Pack"] },
   { name: "Smoked Tuna",     cat: "dried", shape: "dried", forms: ["Slices", "Pack"] }
 ];

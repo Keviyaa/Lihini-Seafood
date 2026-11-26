@@ -135,9 +135,9 @@
       f.outerHTML =
         '<footer class="footer wave-top"><div class="container"><div class="footer__grid">' +
         '<div class="footer__brand"><img src="assets/img/logo-full-light.png" width="300" height="154" alt="Lihini Seafoods — ' + esc(C.tagline) + '" loading="lazy"><p>Fresh from the Ceylon coast to your table — Lihini Seafoods, Dives and Aluth Maalu.</p>' + socials() + '</div>' +
-        '<div><h4>Explore</h4><ul>' + NAV.map((n) => '<li><a href="' + n.href + '">' + n.label + '</a></li>').join('') + '</ul></div>' +
-        '<div><h4>Our brands</h4><ul><li><a href="index.html">Lihini Seafoods</a></li><li><a href="dives.html">Dives</a></li><li><a href="aluth-maalu.html">Aluth Maalu</a></li><li><a href="fish-library.html">Fish library</a></li></ul></div>' +
-        '<div><h4>Visit &amp; call</h4><address>' +
+        '<div><h2 class="footer__h">Explore</h2><ul>' + NAV.map((n) => '<li><a href="' + n.href + '">' + n.label + '</a></li>').join('') + '</ul></div>' +
+        '<div><h2 class="footer__h">Our brands</h2><ul><li><a href="index.html">Lihini Seafoods</a></li><li><a href="dives.html">Dives</a></li><li><a href="aluth-maalu.html">Aluth Maalu</a></li><li><a href="fish-library.html">Fish library</a></li></ul></div>' +
+        '<div><h2 class="footer__h">Visit &amp; call</h2><address>' +
         '<a href="contact.html#map">' + ic('pin') + '<span>' + hq.address.map(esc).join('<br>') + '</span></a>' +
         '<a href="' + tel() + '">' + ic('phone') + '<span>' + esc(C.phone) + '</span></a>' +
         '<a href="mailto:' + esc(C.email) + '">' + ic('mail') + '<span>' + esc(C.email) + '</span></a>' +
@@ -205,7 +205,7 @@
       }).join('');
     },
     socialtiles(el) {
-      const col = { facebook: ['#1877f2', '#0b4fb3'], instagram: ['#f58529', '#8134af'], tiktok: ['#232323', '#ff2d55'], youtube: ['#ff2a2a', '#a50000'], whatsapp: ['#25d366', '#0c8a41'], linkedin: ['#0a66c2', '#073f7a'] };
+      const col = { facebook: ['#1b6fe0', '#0b4aa8'], instagram: ['#d6336c', '#7a2fb0'], tiktok: ['#2a2a2a', '#c2185b'], youtube: ['#d71f1f', '#8e0f0f'], whatsapp: ['#128c4a', '#0a6b36'], linkedin: ['#0a66c2', '#073f7a'] };
       const s = C.social || {};
       el.innerHTML = Object.keys(s).map((k, i) => '<a class="stile" data-reveal="zoom" style="--a:' + (col[k] || ['#367cbf', '#153355'])[0] + ';--b:' + (col[k] || ['#367cbf', '#153355'])[1] + ';--d:' + i * 70 + '" href="' + esc(s[k].url) + '" target="_blank" rel="noopener noreferrer" aria-label="' + esc(s[k].label) + '">' + ic(k) + '<small>' + esc(s[k].label) + '</small></a>').join('');
     },
@@ -236,7 +236,7 @@
       const cols = ['#ffffff', '#ffffff', '#367cbf', '#1fa5df', '#ffffff'];
       for (let i = 0; i < 11; i++) {
         const r = Math.random() < .45;
-        h += '<div class="sfish' + (r ? ' sfish--r' : '') + '" style="--y:' + rand(10, 62).toFixed(0) + '%;--w:' + rand(34, 96).toFixed(0) + 'px;--t:' + rand(26, 52).toFixed(0) + 's;--dl:' + (-rand(0, 40)).toFixed(0) + 's;--o:' + rand(.28, .6).toFixed(2) + ';--c:' + cols[i % cols.length] + '">' + fishSvg(['tuna', 'deep', 'long'][i % 3]) + '</div>';
+        h += '<div class="sfish' + (r ? ' sfish--r' : '') + '" style="--y:' + rand(10, 62).toFixed(0) + '%;--w:' + rand(34, 96).toFixed(0) + 'px;--t:' + rand(26, 52).toFixed(0) + 's;--dl:' + (-rand(0, 40)).toFixed(0) + 's;--o:' + rand(.2, .4).toFixed(2) + ';--c:' + cols[i % cols.length] + '">' + fishSvg(['tuna', 'deep', 'long'][i % 3]) + '</div>';
       }
       el.innerHTML = h;
     },
@@ -276,6 +276,7 @@
     if (!b) return;
     const set = (open) => {
       body.classList.toggle('menu-open', open); body.classList.toggle('no-scroll', open);
+      $$('main, footer, .to-top').forEach((n) => { if (open) n.setAttribute('inert', ''); else n.removeAttribute('inert'); });
       b.setAttribute('aria-expanded', open); b.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     };
     b.addEventListener('click', () => set(!body.classList.contains('menu-open')));
@@ -341,6 +342,12 @@
       })(t0);
     }), { threshold: .6 });
     $$('[data-count]').forEach((e) => cio.observe(e));
+  }
+
+  function initPause() {
+    if (!('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver((es) => es.forEach((e) => e.target.classList.toggle('is-offscreen', !e.isIntersecting)), { rootMargin: '160px 0px' });
+    $$('.hero, .phero, .wave-top, .marquee-wrap, .dives').forEach((n) => io.observe(n));
   }
 
   function initRails() {
@@ -446,7 +453,7 @@
       function show(i) {
         idx = i; const l = locs[i];
         $$('.mtab', box).forEach((t, k) => t.setAttribute('aria-selected', k === i));
-        det.innerHTML = '<span class="ocard__kind" style="color:var(--blue);font:700 .75rem var(--ff-body);letter-spacing:.16em;text-transform:uppercase">' + esc(l.kind) + '</span><h3>' + esc(l.name) + '</h3><ul><li>' + ic('pin') + '<span>' + l.address.map(esc).join('<br>') + '</span></li><li>' + ic('clock') + '<span>' + esc(l.hours) + '</span></li><li>' + ic('phone') + '<a href="tel:' + esc((l.phone || '').replace(/[^+\d]/g, '')) + '">' + esc(l.phone) + '</a></li></ul><div class="btn-row"><a class="btn btn--primary" href="' + esc(mapsDir(l)) + '" target="_blank" rel="noopener">' + ic('directions') + 'Get directions</a></div>';
+        det.innerHTML = '<span class="ocard__kind" style="color:var(--blue-ink);font:700 .75rem var(--ff-body);letter-spacing:.16em;text-transform:uppercase">' + esc(l.kind) + '</span><h3>' + esc(l.name) + '</h3><ul><li>' + ic('pin') + '<span>' + l.address.map(esc).join('<br>') + '</span></li><li>' + ic('clock') + '<span>' + esc(l.hours) + '</span></li><li>' + ic('phone') + '<a href="tel:' + esc((l.phone || '').replace(/[^+\d]/g, '')) + '">' + esc(l.phone) + '</a></li></ul><div class="btn-row"><a class="btn btn--primary" href="' + esc(mapsDir(l)) + '" target="_blank" rel="noopener">' + ic('directions') + 'Get directions</a></div>';
         if (loaded) frame.src = mapsEmbed(l);
       }
       $$('.mtab', box).forEach((t) => t.addEventListener('click', () => show(+t.getAttribute('data-i'))));
@@ -521,7 +528,7 @@
       if (done) return; done = true;
       root.classList.add('is-revealing'); root.classList.remove('is-loading');
       setTimeout(() => root.classList.remove('is-revealing'), 1000);
-      initReveal(); initCanvas();
+      initReveal(); initCanvas(); initPause();
     };
     const ready = () => setTimeout(go, reduce ? 0 : 280);
     d.readyState === 'complete' ? ready() : addEventListener('load', ready);
