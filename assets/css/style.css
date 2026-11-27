@@ -923,3 +923,57 @@ fieldset.field { border: 0; padding: 0; margin: 0; min-width: 0; }
 /* hero waves: the white front wave stopped 1px short of the hero edge (sub-pixel gap showed the gradient as a hairline) */
 .hl { bottom: -2px; }
 .stile > svg, .stile .icon { width: 42%; height: 42%; max-width: 72px; max-height: 72px; opacity: .92; }
+
+/* ---------- 31. Audit pass 3b ---------- */
+/* "Three names" cards: the Lihini card was navy on a navy section (looked like bare text) */
+.fam--l { background: linear-gradient(150deg, #24508a, #1b3f6e); box-shadow: inset 0 0 0 1px rgba(255,255,255,.14); }
+/* journey (milestones): centre the squares exactly on the line; gap between columns is 6rem so the line sits at 3rem */
+@media (min-width: 900px) {
+  .timeline li:nth-child(odd)::before { right: calc(-3rem - 6px); }
+  .timeline li:nth-child(even)::before { left: calc(-3rem - 6px); }
+}
+/* quality checklist: fixed number column so titles line up between rows */
+.checklist li { grid-template-columns: 2.9rem 1fr; align-items: start; }
+.checklist li::before { color: #1489c0; }
+/* fish-card decorative bubble used to sit on the tail tip; move it away from the artwork */
+.fcard__art::before { background:
+  radial-gradient(circle at 18% 24%, rgba(255,255,255,.28) 0 5px, transparent 6px),
+  radial-gradient(circle at 9% 52%, rgba(255,255,255,.2) 0 8px, transparent 9px),
+  radial-gradient(circle at 70% 16%, rgba(255,255,255,.18) 0 4px, transparent 5px),
+  radial-gradient(120% 70% at 50% 120%, rgba(255,255,255,.25), transparent 60%); }
+.eyebrow::before { border-radius: 50%; }
+/* outlet cards: the pulsing ring around the pin ran into the label below it */
+.ocard__pin { margin: 6px 6px 1.3rem; }
+.ccard strong, .ccard span + strong { text-wrap: balance; }
+
+/* ---------- 32. Typography tuned against the REAL web fonts ---------- */
+/* Bricolage Grotesque already ships tight spacing at large optical sizes; -0.025em made letters touch */
+h1, h2, h3, h4 { letter-spacing: -.012em; font-optical-sizing: auto; }
+h1 { letter-spacing: -.016em; }
+.wordmark { letter-spacing: -.03em; }
+/* Fraunces italic accent words: calm the swashes, sit on the same visual size as the bold sans, never collide with the line above */
+em { font-size: .93em; font-variation-settings: "WONK" 0, "SOFT" 0; letter-spacing: -.005em; padding-inline: .03em; }
+h1 em, h2 em, h3 em { line-height: 1; }
+/* big decorative words: variable fonts have overlapping glyph contours, so an outline (text-stroke) showed inner lines.
+   Use a soft solid tint instead. */
+.footer__giant { -webkit-text-stroke: 0; color: rgba(166,214,242,.07); letter-spacing: -.03em; }
+.dives__giant { -webkit-text-stroke: 0; color: rgba(242,106,33,.07); letter-spacing: -.03em; }
+/* outlet pin: pulsing ring was clipped by the card's rounded corner on phones */
+@keyframes ping { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(1.7); opacity: 0; } }
+.ocard__pin { margin: 14px 14px 1.2rem; }
+/* hero outline button: decorative fish swam visibly through it */
+.hero .btn--ghost { background: rgba(255,255,255,.78); }
+@media (max-width: 480px) { .dcard h3 { font-size: 1.05rem; } .dcard p { font-size: .9rem; } }
+/* width/height attributes on <img> are only for layout reservation; never let them squash the picture */
+img:where([width][height]) { height: auto; }
+
+/* ---------- 33. Real-font fixes for narrow phones ---------- */
+h1, h2, h3 { text-wrap: balance; }
+.dcard__tag, .fcard__soon, .eyebrow { white-space: nowrap; }
+@media (max-width: 380px) {
+  .dgrid, .dives--page .dgrid { grid-template-columns: minmax(0, 1fr); }
+  .eyebrow { letter-spacing: .08em; font-size: .75rem; }
+  .cgrid--teaser, .cgrid { grid-template-columns: minmax(0, 1fr); }
+  .cert h3, .cert__area { overflow-wrap: anywhere; }
+}
+.cert h3 { overflow-wrap: anywhere; }
