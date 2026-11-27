@@ -205,7 +205,7 @@
       }).join('');
     },
     socialtiles(el) {
-      const col = { facebook: ['#1b6fe0', '#0b4aa8'], instagram: ['#d6336c', '#7a2fb0'], tiktok: ['#2a2a2a', '#c2185b'], youtube: ['#d71f1f', '#8e0f0f'], whatsapp: ['#128c4a', '#0a6b36'], linkedin: ['#0a66c2', '#073f7a'] };
+      const col = { facebook: ['#1b6fe0', '#0b4aa8'], instagram: ['#d6336c', '#7a2fb0'], tiktok: ['#2b2f3a', '#0a0b10'], youtube: ['#d71f1f', '#8e0f0f'], whatsapp: ['#128c4a', '#0a6b36'], linkedin: ['#0a66c2', '#073f7a'] };
       const s = C.social || {};
       el.innerHTML = Object.keys(s).map((k, i) => '<a class="stile" data-reveal="zoom" style="--a:' + (col[k] || ['#367cbf', '#153355'])[0] + ';--b:' + (col[k] || ['#367cbf', '#153355'])[1] + ';--d:' + i * 70 + '" href="' + esc(s[k].url) + '" target="_blank" rel="noopener noreferrer" aria-label="' + esc(s[k].label) + '">' + ic(k) + '<small>' + esc(s[k].label) + '</small></a>').join('');
     },
